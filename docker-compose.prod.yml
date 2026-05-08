@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: trainlytics
+      POSTGRES_PASSWORD: trainlytics
+      POSTGRES_DB: trainlytics
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trainlytics"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    restart: always
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://trainlytics:trainlytics@db:5432/trainlytics
+    depends_on:
+      db:
+        condition: service_healthy
+    # no volume mount — uses the image's baked-in code
+
+  frontend:
+    build: ./frontend
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
