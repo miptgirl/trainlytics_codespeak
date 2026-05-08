@@ -42,25 +42,6 @@ Users can:
 
 ---
 
-## Core User Stories
-
-### Activity Logging
-As a user, I want to log any type of workout with metrics relevant to that activity, so that my training data is complete and useful.
-
-### Strength Training Templates
-As a user, I want reusable workout templates with predefined exercises and parameters, so I can log gym sessions faster.
-
-### Weekly Planning
-As a user, I want to plan my training week in advance and track completion, so I can stay consistent and accountable.
-
-### Progress Analytics
-As a user, I want to see charts of my performance and training volume over time, so I can identify improvements, plateaus, and trends.
-
-### AI-Friendly Export
-As a user, I want to export a weekly training summary in text format, so I can easily share it with AI tools or coaches for analysis and recommendations.
-
----
-
 ## Deployment: Running locally
 
 **Prerequisites:** Docker and Docker Compose installed.
@@ -105,18 +86,3 @@ docker compose exec backend uv run alembic upgrade head
 **4. Open the app** at [http://localhost:5173](http://localhost:5173) and log in with the credentials from your `.env`.
 
 
----
-
-## Target User
-
-Fitness Tracker is designed for:
-- hybrid athletes combining cardio + strength training
-- data-driven fitness enthusiasts
-- users experimenting with AI coaching and training optimization
-
----
-
-## Product Vision
-
-Build a flexible personal fitness operating system:
-not just a workout log, but a centralized tool for planning, tracking, analyzing, and continuously improving training.
