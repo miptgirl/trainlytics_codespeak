@@ -1,0 +1,152 @@
+---
+import specs/backend_api.cs.md
+---
+# Trainlytics Frontend SPA
+
+A React single-page application for logging and reviewing workouts. The app is named **Trainlytics** with the tagline "TRACK · ANALYSE · IMPROVE".
+
+## Stack & Setup
+
+- React + TypeScript, built with Vite
+- Tailwind CSS (v4) with a custom blue primary palette (`primary-50` … `primary-900`) and a light `surface`/`surface-card` background
+- Font: Montserrat (loaded from Google Fonts), applied globally
+- TanStack React Query for all server state
+- React Hook Form for all forms
+- Recharts for the training trends chart
+- Tests: Vitest + Testing Library (`@testing-library/jest-dom` in setup)
+
+## Authentication
+
+- JWT-based. The access token is stored in memory only (never localStorage).
+- On app load a silent token refresh is attempted via `POST /auth/refresh` using an HttpOnly cookie. While this is in-flight, the app renders nothing (loading state).
+- A global 401 handler is registered with the API client. Any 401 response triggers logout and redirects to `/login`.
+- `AuthContext` exposes `token`, `username` (parsed from the JWT `sub` claim), `isLoading`, `login`, and `logout`.
+- All routes except `/login` are wrapped in `ProtectedRoute`. An unauthenticated user is redirected to `/login`; an already-authenticated user visiting `/login` is redirected to `/`.
+- The root path `/` redirects to `/history`.
+
+## Layout & Navigation
+
+- A sticky top header contains the Trainlytics logo (links to `/`), nav links, the current username, and a "Sign out" button.
+- On mobile the nav collapses behind a hamburger button that opens a dropdown. The dropdown closes on navigation.
+- Nav links: **History**, **Log Workout**, **Templates**, **Settings**.
+- Page content is max-width `5xl`, centred, with horizontal padding.
+
+## API Client
+
+- All requests go to `/api{path}` with `Content-Type: application/json` and `credentials: include`.
+- The Bearer token is attached when present.
+- Non-2xx responses throw an `Error` using the `detail` field from the JSON body.
+- 204 responses return `undefined`.
+
+## Pages
+
+### History (`/history`)
+
+- **Weekly summary card**: shows the current week's cardio and strength totals (minutes + kcal) side by side.
+- **12-week training trends chart**: stacked area chart (Recharts) of cardio and strength, togglable between minutes and calories views.
+- **Session list**: paginated (20 per page) list of all sessions, filterable by type (all / cardio / strength) and date range. Resetting any filter resets to page 1. Each row links to the session detail page and shows a type badge plus key stats:
+  - Cardio: distance, duration, calculated pace (if both available)
+  - Strength: exercise count, total volume, duration
+- A "Clear filters" link appears when any filter is active.
+
+### Log Workout (`/log`)
+
+User first picks a type — **Cardio** or **Strength** — then fills in the corresponding form.
+
+#### Cardio form
+
+- Fields: title (auto-generated from activity type + total distance until manually edited), activity type (from `/cardio-types`), date/time (defaults to now), total duration override (uses `TimeInput`), calories, notes.
+- One or more **segments**, each with: title, duration (required, `TimeInput`), distance (km), pace (`TimeInput`), avg heart rate.
+- Segments can be added/removed; at least one must remain.
+- On save, navigates to the new session's detail page.
+
+#### Strength form
+
+- Optional **template selector** pre-fills exercises and sets. Selecting a template resets the form to the template's data (title is preserved if already manually edited).
+- Fields: title, date/time, notes, duration (`TimeInput`), calories.
+- One or more **exercise entries** (see ExerciseEntryBlock below). When a template is loaded, exercise sets show a **Done** checkbox column and auto-collapse when all sets are marked done (and auto-expand on uncheck).
+- On submit, if a template was used and the current form differs from the template snapshot, a **diff modal** is shown listing each change and asking whether to save the changes back to the template. The user can choose: update template + save session, keep template as-is + save session, or cancel.
+- Can be opened pre-loaded with a template via `?templateId=<id>` query parameter.
+
+### Session Detail (`/sessions/:id`)
+
+Fetches the session type and routes to either `StrengthSessionDetailPage` or `CardioSessionDetailPage`.
+
+#### Strength session detail
+
+- Displays: date/time + total set count in subtitle, optional title/duration/calories card, notes, and a list of exercises each showing a set table (reps, weight, notes).
+- **Edit** mode replaces the view with an inline edit form (same fields; exercise picker is a plain `<select>` here, not the custom dropdown).
+- **Delete** button with a confirm dialog; on success navigates to `/`.
+
+#### Cardio session detail
+
+- Displays: title, date, activity type, total duration, calories, notes, and a list of segments each showing duration, distance, pace, avg HR (only non-null values shown).
+- Total duration falls back to the sum of segment durations if the override is absent.
+- **Edit** and **Delete** actions follow the same pattern as strength.
+
+### Templates (`/templates`)
+
+Lists strength workout templates (name, exercise count, optional notes).
+
+- **Use** button navigates to `/log?templateId=<id>`.
+- **Edit** opens an inline form page (same layout as create).
+- **Delete** uses an inline confirmation within the list row.
+- Template form: name (required), notes, and one or more exercise entries (same `ExerciseEntryBlock` component, collapse supported, no Done column).
+
+### Settings (`/settings`)
+
+Three independent CRUD sections on one page:
+
+1. **Activity Types** — cardio activity types (e.g. Run, Cycling). Name only.
+2. **Exercise Types** — categories for exercises (e.g. Push, Pull, Legs). Name only.
+3. **Exercises** — name, optional notes, zero or more exercise type tags (toggled as pill buttons).
+
+All three sections use an inline add/edit form that appears above the list; only one item can be edited at a time per section.
+
+### Login (`/login`)
+
+Username + password form. Shows field-level required errors and an API error alert. Already-authenticated users are redirected away immediately.
+
+## Shared Components
+
+### ExerciseEntryBlock
+
+Used in Log Workout (strength) and Templates. Each block represents one exercise entry.
+
+- A custom **two-level dropdown picker** for selecting an exercise: level 1 shows category groups with counts, level 2 shows exercises within a category with a back button. Groups are sorted alphabetically, as are exercises within each group; exercises with no types appear under "Other" at the end. When reopening, the picker pre-selects the group of the currently selected exercise.
+- Selected exercise's notes are shown as a hint below the picker.
+- A set table with columns: #, Reps, Weight (kg), Notes, and optionally Done (checkbox). Sets can be added ("+ Add Set") and removed (minimum 1 set).
+- The block header shows the exercise name and can be collapsed; when collapsed, the set count is shown.
+- `showDone` prop enables the Done column and auto-collapse/expand behaviour.
+- `canRemove` controls whether the "Remove exercise" button appears.
+
+### TimeInput
+
+A text input whose canonical value is **seconds** (integer) or `null`. Two display formats:
+
+- `duration`: `h:mm:ss` for ≥ 1 hour, `m:ss` otherwise
+- `pace`: always `m:ss`
+
+On blur, the text is parsed; invalid input shows an inline error and emits `null`. Valid input normalises the display to the canonical format. External value changes sync the display only when the field is not focused. Default placeholder reflects the format.
+
+### ProtectedRoute
+
+Renders nothing while auth is loading, redirects to `/login` if no token, otherwise renders children.
+
+## Utility Modules
+
+### dateUtils
+
+- `localDateTimeNow()` — current local time as a `datetime-local` string
+- `toDatetimeLocal(isoString)` — converts a UTC ISO string to local `datetime-local` format
+- `datetimeLocalToUTC(val)` — converts a `datetime-local` string to UTC ISO for the API
+- `formatSessionDateTime(isoString)` — formats as `"4 May 2026 · 07:30"` in the user's local timezone
+
+### unitUtils
+
+The backend stores durations in seconds, distances in metres, and pace in seconds/km; the UI presents minutes, kilometres, and min/km. Conversion functions: `secondsToMins`, `minsToSeconds`, `metresToKm`, `kmToMetres`, `secPerKmToMinPerKm`, `minPerKmToSecPerKm`.
+
+## Tests
+
+- `LoginPage.test.tsx`: renders the form, validates required fields on empty submit, calls `login` with typed credentials, displays API errors as an alert.
+- `TimeInput.test.tsx`: unit tests for `parseTimeString` and `formatSeconds` (including round-trip), plus component tests for display, onChange, error state, empty/clear, normalisation, and external prop sync.

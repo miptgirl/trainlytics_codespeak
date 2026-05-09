@@ -1,0 +1,126 @@
+{
+  "version": "0.1.0",
+  "profile_name": "mixed_mode",
+  "test_runner_configurations": {
+    "specs/frontend.cs.md": {
+      "run_all_tests_command": {
+        "command_line": "pnpm vitest run --reporter=junit --outputFile={tests_report_file}",
+        "cwd": "frontend"
+      },
+      "run_specified_tests_command": {
+        "command_line": "pnpm vitest run {tests_list} --reporter=junit --outputFile={tests_report_file}",
+        "cwd": "frontend"
+      },
+      "run_all_tests_with_coverage_command": {
+        "command_line": "pnpm vitest run --reporter=junit --outputFile={tests_report_file} --coverage --coverage.provider=v8 --coverage.reportOnFailure --coverage.include=\"src/**\" --coverage.exclude=\"**/*.cs.md\" --coverage.reporter=lcov --coverage.reportsDirectory=.coverage-tmp; _EC=$?; [ -f .coverage-tmp/lcov.info ] && cp .coverage-tmp/lcov.info {tests_coverage_report_file}; rm -rf .coverage-tmp; exit $_EC",
+        "cwd": "frontend"
+      },
+      "run_specified_tests_with_coverage_command": {
+        "command_line": "pnpm vitest run {tests_list} --reporter=junit --outputFile={tests_report_file} --coverage --coverage.provider=v8 --coverage.reportOnFailure --coverage.include=\"src/**\" --coverage.exclude=\"**/*.cs.md\" --coverage.reporter=lcov --coverage.reportsDirectory=.coverage-tmp; _EC=$?; [ -f .coverage-tmp/lcov.info ] && cp .coverage-tmp/lcov.info {tests_coverage_report_file}; rm -rf .coverage-tmp; exit $_EC",
+        "cwd": "frontend"
+      },
+      "non_test_source_regex_include": [
+        "\\.ts$",
+        "\\.tsx$"
+      ],
+      "non_test_source_regex_exclude": [
+        "\\.test\\.ts$",
+        "\\.spec\\.ts$",
+        "\\.test\\.tsx$",
+        "\\.spec\\.tsx$",
+        "(^|/)__tests__/"
+      ],
+      "source_glob_patterns": [
+        "**/*.ts",
+        "**/*.tsx"
+      ]
+    },
+    "specs/backend_tests.cs.md": {
+      "run_all_tests_command": {
+        "command_line": "uv run pytest tests/ --junitxml={tests_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "run_specified_tests_command": {
+        "command_line": "uv run pytest {tests_list} --junitxml={tests_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "run_all_tests_with_coverage_command": {
+        "command_line": "uv run pytest tests/ --junitxml={tests_report_file} --cov=app --cov-branch --cov-report=lcov:{tests_coverage_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "run_specified_tests_with_coverage_command": {
+        "command_line": "uv run pytest {tests_list} --junitxml={tests_report_file} --cov=app --cov-branch --cov-report=lcov:{tests_coverage_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "non_test_source_regex_include": [
+        "\\.py$"
+      ],
+      "non_test_source_regex_exclude": [
+        "(^|/)test_",
+        "_test\\.py$",
+        "(^|/)conftest\\.py$"
+      ],
+      "source_glob_patterns": [
+        "**/*.py"
+      ]
+    },
+    "specs/backend_api.cs.md": {
+      "run_all_tests_command": {
+        "command_line": "uv run pytest tests/ --junitxml={tests_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "run_specified_tests_command": {
+        "command_line": "uv run pytest {tests_list} --junitxml={tests_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "run_all_tests_with_coverage_command": {
+        "command_line": "uv run pytest tests/ --junitxml={tests_report_file} --cov=app --cov-branch --cov-report=lcov:{tests_coverage_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "run_specified_tests_with_coverage_command": {
+        "command_line": "uv run pytest {tests_list} --junitxml={tests_report_file} --cov=app --cov-branch --cov-report=lcov:{tests_coverage_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "non_test_source_regex_include": [
+        "\\.py$"
+      ],
+      "non_test_source_regex_exclude": [
+        "(^|/)test_",
+        "_test\\.py$",
+        "(^|/)conftest\\.py$"
+      ],
+      "source_glob_patterns": [
+        "**/*.py"
+      ]
+    },
+    "specs/data_layer.cs.md": {
+      "run_all_tests_command": {
+        "command_line": "uv run pytest tests/ --junitxml={tests_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "run_specified_tests_command": {
+        "command_line": "uv run pytest {tests_list} --junitxml={tests_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "run_all_tests_with_coverage_command": {
+        "command_line": "uv run pytest tests/ --junitxml={tests_report_file} --cov=app --cov-branch --cov-report=lcov:{tests_coverage_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "run_specified_tests_with_coverage_command": {
+        "command_line": "uv run pytest {tests_list} --junitxml={tests_report_file} --cov=app --cov-branch --cov-report=lcov:{tests_coverage_report_file} --tb=short",
+        "cwd": "backend"
+      },
+      "non_test_source_regex_include": [
+        "\\.py$"
+      ],
+      "non_test_source_regex_exclude": [
+        "(^|/)test_",
+        "_test\\.py$",
+        "(^|/)conftest\\.py$"
+      ],
+      "source_glob_patterns": [
+        "**/*.py"
+      ]
+    }
+  }
+}

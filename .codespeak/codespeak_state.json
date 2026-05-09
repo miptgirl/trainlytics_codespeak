@@ -1,0 +1,133 @@
+{
+    "meta": {
+        "schema": {
+            "implemented_change_requests": {
+                "type": "file",
+                "relative_path": "implemented_change_requests.json",
+                "format": "json",
+                "by_task": "FinalizeChangeRequest"
+            },
+            "spec_before_refinement": {
+                "type": "file",
+                "relative_path": "spec_before_refinement.md",
+                "format": "text",
+                "by_task": "RefineSpecificationWithUserIntent"
+            },
+            "spec_analysis": {
+                "type": "file",
+                "relative_path": "spec_analysis.json",
+                "format": "json",
+                "by_task": "RefineSpecificationWithUserIntent"
+            },
+            "external_apis": {
+                "type": "file",
+                "relative_path": "external_apis.json",
+                "format": "json",
+                "by_task": "AnalyzeExternalApis"
+            },
+            "console_app_dev_command": {
+                "type": "file",
+                "relative_path": "console_app_dev_command.txt",
+                "format": "text",
+                "by_task": "GenerateCliUsageExamples"
+            },
+            "console_app_usage_examples": {
+                "type": "file",
+                "relative_path": "console_app_usage_examples.json",
+                "format": "json",
+                "by_task": "GenerateCliUsageExamples"
+            },
+            "sha_to_checkpoint": {
+                "type": "file",
+                "relative_path": "sha_to_checkpoint.json",
+                "format": "json"
+            }
+        },
+        "version": "0.2.0"
+    },
+    "phases_state": {
+        "managed_files_write_violations": [],
+        "spec_before_refinement": ".codespeak/spec_before_refinement.md",
+        "managed_files": {
+            "specs/frontend.cs.md": [
+                "frontend/index.html",
+                "frontend/public/favicon.svg",
+                "frontend/public/icons.svg",
+                "frontend/src/App.tsx",
+                "frontend/src/__tests__/LoginPage.test.tsx",
+                "frontend/src/__tests__/TimeInput.test.tsx",
+                "frontend/src/assets/logo.svg",
+                "frontend/src/components/ExerciseEntryBlock.tsx",
+                "frontend/src/components/Layout.tsx",
+                "frontend/src/components/ProtectedRoute.tsx",
+                "frontend/src/components/TimeInput.tsx",
+                "frontend/src/contexts/AuthContext.tsx",
+                "frontend/src/index.css",
+                "frontend/src/lib/api.ts",
+                "frontend/src/lib/dateUtils.ts",
+                "frontend/src/lib/unitUtils.ts",
+                "frontend/src/main.tsx",
+                "frontend/src/pages/CardioSessionDetailPage.tsx",
+                "frontend/src/pages/CardioTypesPage.tsx",
+                "frontend/src/pages/ExercisesPage.tsx",
+                "frontend/src/pages/HistoryPage.tsx",
+                "frontend/src/pages/LogWorkoutPage.tsx",
+                "frontend/src/pages/LoginPage.tsx",
+                "frontend/src/pages/SettingsPage.tsx",
+                "frontend/src/pages/StrengthSessionDetailPage.tsx",
+                "frontend/src/pages/TemplatesPage.tsx",
+                "frontend/src/test-setup.ts"
+            ],
+            "specs/backend_tests.cs.md": [
+                "backend/tests/__init__.py",
+                "backend/tests/conftest.py",
+                "backend/tests/test_auth.py",
+                "backend/tests/test_cardio_types.py",
+                "backend/tests/test_exercise_types.py",
+                "backend/tests/test_exercises.py",
+                "backend/tests/test_sessions.py",
+                "backend/tests/test_templates.py"
+            ],
+            "specs/backend_api.cs.md": [
+                "backend/app/__init__.py",
+                "backend/app/api/__init__.py",
+                "backend/app/api/auth.py",
+                "backend/app/api/cardio_types.py",
+                "backend/app/api/exercise_types.py",
+                "backend/app/api/exercises.py",
+                "backend/app/api/sessions.py",
+                "backend/app/api/templates.py",
+                "backend/app/auth.py",
+                "backend/app/config.py",
+                "backend/app/dependencies.py",
+                "backend/app/main.py",
+                "backend/app/services/__init__.py"
+            ],
+            "specs/data_layer.cs.md": [
+                "backend/app/database.py",
+                "backend/app/models/__init__.py",
+                "backend/app/models/cardio_activity_type.py",
+                "backend/app/models/exercise.py",
+                "backend/app/models/exercise_type.py",
+                "backend/app/models/session.py",
+                "backend/app/models/template.py",
+                "backend/app/schemas/__init__.py",
+                "backend/app/schemas/cardio_activity_type.py",
+                "backend/app/schemas/exercise.py",
+                "backend/app/schemas/exercise_type.py",
+                "backend/app/schemas/session.py",
+                "backend/app/schemas/template.py",
+                "backend/migrations/README",
+                "backend/migrations/env.py",
+                "backend/migrations/script.py.mako",
+                "backend/migrations/versions/0001_create_exercises_table.py",
+                "backend/migrations/versions/0002_create_cardio_activity_types_table.py",
+                "backend/migrations/versions/0003_create_sessions_tables.py",
+                "backend/migrations/versions/0004_create_strength_tables.py",
+                "backend/migrations/versions/0005_create_strength_template_tables.py",
+                "backend/migrations/versions/0006_phase3_schema_additions.py",
+                "backend/migrations/versions/0007_create_exercise_types_tables.py"
+            ]
+        }
+    }
+}
