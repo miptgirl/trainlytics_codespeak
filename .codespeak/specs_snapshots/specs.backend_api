@@ -1,3 +1,6 @@
+---
+import specs/data_layer.cs.md
+---
 # Trainlytics Backend API
 
 FastAPI application serving the Trainlytics workout tracking backend. All routes are prefixed with `/api`.

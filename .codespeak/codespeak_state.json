@@ -128,6 +128,8 @@
                 "backend/migrations/versions/0006_phase3_schema_additions.py",
                 "backend/migrations/versions/0007_create_exercise_types_tables.py"
             ]
-        }
+        },
+        "codespeak_internals_migrated": true,
+        "test_run_instructions": "Determine how to run tests for this project. Check for Python project management tools (uv, hatch, poetry, pip) by inspecting pyproject.toml and other config files. Use the appropriate command to run the test suite (e.g. `uv run pytest` for uv projects, `hatch run test` for hatch projects, `poetry run pytest` for poetry projects, `pytest` or `python -m pytest` otherwise)."
     }
 }
