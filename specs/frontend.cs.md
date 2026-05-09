@@ -47,6 +47,7 @@ A React single-page application for logging and reviewing workouts. The app is n
 - **Session list**: paginated (20 per page) list of all sessions, filterable by type (all / cardio / strength) and date range. Resetting any filter resets to page 1. Each row links to the session detail page and shows a type badge plus key stats:
   - Cardio: distance, duration, calculated pace (if both available)
   - Strength: exercise count, total volume, duration
+- **Copy workout summary**: each session row includes a button that copies a formatted text summary of the workout to the clipboard, including all available session details (cardio segments or strength exercises/sets with stats).
 - A "Clear filters" link appears when any filter is active.
 
 ### Log Workout (`/log`)
