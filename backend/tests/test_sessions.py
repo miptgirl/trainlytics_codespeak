@@ -74,6 +74,7 @@ async def test_get_cardio_session(db_session, auth_client: AsyncClient):
     assert resp.status_code == 200
     data = resp.json()
     assert data["id"] == session_id
+    assert data["type"] == "cardio"
     assert len(data["segments"]) == 2
     assert data["title"] == "Morning 10k"
     assert data["calories"] == 400

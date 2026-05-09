@@ -1,0 +1,3 @@
+[
+    "Copy workout summary - fix \n- Support cardio trainings' format to copy summary, since currently it fails (likely due to different format)\n- There's no log about failures neither in browser console nor in Docker logs, please, log issues when copying for debugging. Please, add proper logging for issues."
+]

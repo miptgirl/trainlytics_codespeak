@@ -262,7 +262,8 @@ function CopyButton({ sessionId }: { sessionId: number }) {
       await navigator.clipboard.writeText(text)
       setStatus('done')
       setTimeout(() => setStatus('idle'), 2000)
-    } catch {
+    } catch (err) {
+      console.error(`[CopyButton] Failed to copy workout summary for session ${sessionId}:`, err)
       setStatus('error')
       setTimeout(() => setStatus('idle'), 2000)
     }

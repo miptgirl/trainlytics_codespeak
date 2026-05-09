@@ -59,6 +59,7 @@ class CardioSessionOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    type: str = "cardio"
     activity_type_id: int | None
     total_duration_seconds: int | None
     date: datetime

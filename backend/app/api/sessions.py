@@ -45,6 +45,7 @@ def _build_cardio_out(ws: WorkoutSession) -> CardioSessionOut:
     cs = ws.cardio_session
     return CardioSessionOut(
         id=ws.id,
+        type=ws.type,
         activity_type_id=cs.activity_type_id,
         total_duration_seconds=cs.total_duration_seconds,
         date=ws.date,
